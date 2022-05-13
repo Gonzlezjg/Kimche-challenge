@@ -1,0 +1,30 @@
+{
+  "palette": {
+    "mode": "dark",
+    "primary": {
+      "main": "#1b5cdf",
+      "light": "#3e79ec",
+      "dark": "#0c46bd"
+    },
+    "secondary": {
+      "main": "#9196ec",
+      "light": "#a0a4ef",
+      "dark": "#767ce7"
+    },
+    "background": {
+      "default": "#0a1929",
+      "paper": "#001e3c"
+    },
+    "text": {
+      "primary": "#ffffff",
+      "secondary": "#f1f1f1"
+    },
+    "divider": "rgba(255,255,255,0.09)",
+    "info": {
+      "main": "#2196f3"
+    }
+  },
+  "typography": {
+    "fontFamily": "Fredoka, sans serif"
+  }
+}
