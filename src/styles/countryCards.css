@@ -1,0 +1,5 @@
+.country-cards:hover {
+  cursor: pointer;
+  transition: 0.5s ease-out;
+  background-color: #0a1929;
+}

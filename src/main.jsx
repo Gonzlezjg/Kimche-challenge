@@ -9,9 +9,10 @@ import {
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import customTheme from "./theme/theme.json";
 import Loading from "./components/loading/Loading";
-import "./index.css";
+import GlobalState from "./context/GlobalState";
+import "./styles/index.css";
 
-const App = lazy(() => import('./App'));
+const App = lazy(() => import("./App"));
 
 const theme = createTheme(customTheme);
 
@@ -26,7 +27,9 @@ ReactDOM.createRoot(document.getElementById("root")).render(
   <ApolloProvider client={client}>
     <ThemeProvider theme={theme}>
       <Suspense fallback={<Loading />}>
-        <App />
+        <GlobalState>
+          <App />
+        </GlobalState>
       </Suspense>
     </ThemeProvider>
   </ApolloProvider>
