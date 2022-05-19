@@ -15,3 +15,7 @@
   - Consumiendo las primeras querys con ApolloClient.
   - Mostrando la data obtenida dinamicamente en las cards(modelo preliminar) y estilización de la misma.
 
+### Progeso del dia 19/05/2022
+  - Filtrando valores por paises y mostrando segun corresponda su continente.
+  - Modal para mostrar mas datos acerca del pais seleccionado creado.
+
