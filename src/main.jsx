@@ -8,7 +8,7 @@ import {
 } from "@apollo/client";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import customTheme from "./theme/theme.json";
-import Loading from "./components/loading/Loading";
+import Loading from "./components/loading/AppLoading";
 import GlobalState from "./context/GlobalState";
 import "./styles/index.css";
 

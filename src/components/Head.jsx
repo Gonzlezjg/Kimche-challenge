@@ -18,7 +18,7 @@ const formDataReducer = (state, event) => {
 };
 
 const Head = () => {
-  const { formValue, setGlobalValue } = useContext(GlobalContext);
+  const { setGlobalValue } = useContext(GlobalContext);
   const [formData, setFormData] = useReducer(formDataReducer, {
     country: "",
     groupBy: "continent",
@@ -42,13 +42,13 @@ const Head = () => {
         Country search
       </Typography>
       <Box
+        onSubmit={(e) => e.preventDefault()}
         component="form"
         mt={4}
         sx={{
           "& > :not(style)": { width: "100%" },
         }}
       >
-        
         <TextField
           fullWidth
           label="Input a country"
@@ -57,7 +57,10 @@ const Head = () => {
           onChange={handleChange}
           sx={{ borderColor: "#424242" }}
         />
-        <Typography variant="body2" sx={{ color: "#FFFFFF", fontWeight: "200" }}>
+        <Typography
+          variant="body2"
+          sx={{ color: "#FFFFFF", fontWeight: "200" }}
+        >
           Example: Angola, Mexico, South Africa ,United States.
         </Typography>
         <Paper

@@ -10,8 +10,6 @@ import {
 import "../styles/countryCards.css";
 
 const CountryCards = ({ country }) => {
-  console.log(country);
-
   return (
     <Tooltip placement="right" title="Click for more details" arrow>
       <Card sx={{ height: 150 }} className="country-cards">
