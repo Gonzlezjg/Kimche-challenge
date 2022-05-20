@@ -18,7 +18,7 @@
 ### Progreso del dia 19/05/2022
   - Filtrando valores por paises y mostrando segun corresponda su continente.
   - Modal para mostrar mas datos acerca del pais seleccionado creado.
-  - 
+  
 ### Entrega dia 20/05/2022
   - Terminar de filtrar por lenguajes
   - Subida a netlify y ultimos cambios a github.
