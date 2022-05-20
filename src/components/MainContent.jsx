@@ -1,83 +1,15 @@
 import React, { useState } from "react";
-import { gql, useQuery } from "@apollo/client";
 import { useContext, useEffect } from "react";
 import GlobalContext from "../context/GlobalContext";
 import CountryCards from "../components/CountryCards";
 import { Box, Divider, Grid, Typography } from "@mui/material";
 import CircularProgress from "@mui/material/CircularProgress";
 
-const FIND_COUNTRY = gql`
-  query getCountry {
-    getCountriesContinent: continents {
-      name
-      countries {
-        name
-        code
-        phone
-        capital
-        currency
-        emoji
-        continent {
-          name
-        }
-      }
-    }
-
-    getCountryLang: countries {
-      name
-      code
-      phone
-      capital
-      currency
-      emoji
-      languages {
-        name
-      }
-    }
-  }
-`;
-
 const MainContent = () => {
-  const { formValue } = useContext(GlobalContext);
-  const { loading, data } = useQuery(FIND_COUNTRY);
-  const [countryData, setCountryData] = useState([]);
+  const { countryData } = useContext(GlobalContext);
+  const { called, loading, group, data } = countryData;
 
-  function getCountry() {
-    if (!loading) {
-      if (formValue.groupBy === "continent") {
-        let results = [];
-        data?.getCountriesContinent.forEach((elem) => {
-          let result = {
-            name: elem.name,
-            countries: elem.countries.filter((el) =>
-              el.name.toLowerCase().includes(formValue.country.toLowerCase())
-            ),
-          };
-
-          results.push(result);
-        });
-        setCountryData(results);
-      } else {
-        if (formValue.country) {
-          let results = data?.getCountryLang.filter((el) =>
-            el.name.toLowerCase().includes(formValue?.country.toLowerCase())
-          );
-          let elem = results.map((el) => {
-            return {
-              ...el,
-              languages: el.languages.map((e) => e.name),
-            };
-          });
-          setCountryData(elem);
-        }
-      }
-    }
-  }
-  useEffect(() => {
-    getCountry();
-  }, [formValue]);
-
-  if (loading) {
+  if (called && loading) {
     return (
       <Box
         sx={{
@@ -102,11 +34,11 @@ const MainContent = () => {
         columns={{ xs: 4, sm: 8, md: 16 }}
         mb={4}
       >
-        {formValue.groupBy === "continent"
-          ? countryData?.map((country, key) => {
+        {group === "continent"
+          ? data?.map((country, key) => {
               return (
                 <>
-                  {country?.countries.length ? (
+                  {country?.countries != undefined ? (
                     <Grid item xs={16} key={key}>
                       <Divider textAlign="left">
                         <Typography
@@ -116,24 +48,25 @@ const MainContent = () => {
                             fontWeight: "400",
                           }}
                         >
-                          {country.name}
+                          {country.continent}
                         </Typography>
                       </Divider>
                     </Grid>
                   ) : (
                     <></>
                   )}
-                  {country?.countries.map((el, key) => {
-                    return (
-                      <Grid item xs={4} md={4} key={key + 1}>
-                        <CountryCards country={el} />
-                      </Grid>
-                    );
-                  })}
+
+                  {country?.countries.length || country?.countries != undefined
+                    ? country?.countries.map((el, key) => (
+                        <Grid item xs={4} md={4} key={key + 1}>
+                          <CountryCards country={el} />
+                        </Grid>
+                      ))
+                    : ""}
                 </>
               );
             })
-          : countryData?.map((country, key) => {
+          : data?.map((country, key) => {
               return (
                 <>
                   {country?.languages != undefined ? (

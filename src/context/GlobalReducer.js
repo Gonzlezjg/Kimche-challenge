@@ -1,6 +1,7 @@
 export const SET_GLOBAL_VALUE = "setGlobalValue";
 export const formValue = "formValue";
 export const countryDetailsModal = "countryDetailsModal";
+export const countryData = "countryData";
 
 export const initialState = {
   formValue: {},
@@ -8,6 +9,12 @@ export const initialState = {
     active: false,
     code: null,
   },
+  countryData: {
+    data: [],
+    loading: false,
+    called: false,
+    group: "",
+  }
 };
 
 export default function GlobalReducer(state, actions) {

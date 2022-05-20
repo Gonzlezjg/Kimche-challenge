@@ -9,6 +9,41 @@ import {
 } from "@mui/material";
 import { LanguageIcon, ContinentIcon, SearchIconFlag } from "../icons/icons.js";
 import GlobalContext from "../context/GlobalContext";
+import { gql, useLazyQuery } from "@apollo/client";
+
+const FIND_COUNTRY = gql`
+  query getCountry {
+    getCountriesContinent: continents {
+      name
+      countries {
+        name
+        code
+        phone
+        capital
+        currency
+        emoji
+        continent {
+          name
+        }
+      }
+    }
+
+    getCountryLang: countries {
+      name
+      code
+      phone
+      capital
+      currency
+      emoji
+      continent {
+        name
+      }
+      languages {
+        name
+      }
+    }
+  }
+`;
 
 const formDataReducer = (state, event) => {
   return {
@@ -25,10 +60,54 @@ const Head = () => {
   });
   const [alignment, setAlignment] = useState("continent");
 
+  const [loadCountry, { called, loading, data }] = useLazyQuery(FIND_COUNTRY);
+
   useEffect(() => {
     setGlobalValue("formValue", formData);
+    getCountry();
   }, [formData]);
 
+  function getCountry() {
+    if (called && loading) return;
+    if (formData.groupBy === "language") {
+      if (formData.country) {
+        let results = data?.getCountryLang.filter((el) =>
+          el.name.toLowerCase().includes(formData?.country.toLowerCase())
+        );
+        let elem = results.map((el) => {
+          return {
+            ...el,
+            languages: el.languages.map((e) => e.name),
+          };
+        });
+        setGlobalValue("countryData", {
+          data: elem,
+          loading,
+          called,
+          group: "language",
+        });
+      }
+    } else {
+      if (formData.country) {
+        let results = data?.getCountriesContinent.map((el) => {
+          return {
+            continent: el.name,
+            countries: el.countries.filter((e) =>
+              e.name.toLowerCase().includes(formData.country.toLowerCase())
+            ),
+          };
+        });
+        let country = results?.filter((el) => el.countries.length > 0);
+
+        setGlobalValue("countryData", {
+          data: country,
+          loading,
+          called,
+          group: "continent",
+        });
+      }
+    }
+  }
   const handleChange = (event, newAlignment) => {
     setAlignment(newAlignment);
     setFormData({
@@ -90,6 +169,7 @@ const Head = () => {
               aria-label="text alignment"
             >
               <ToggleButton
+                onClick={loadCountry}
                 name="groupBy"
                 value="continent"
                 sx={{
@@ -98,7 +178,12 @@ const Head = () => {
               >
                 <ContinentIcon size={30} /> &nbsp; Continent
               </ToggleButton>
-              <ToggleButton name="groupBy" value="language">
+
+              <ToggleButton
+                onClick={loadCountry}
+                name="groupBy"
+                value="language"
+              >
                 <LanguageIcon size={30} /> &nbsp; Language
               </ToggleButton>
             </ToggleButtonGroup>
