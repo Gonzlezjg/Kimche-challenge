@@ -7,7 +7,7 @@ import {
   ToggleButtonGroup,
   Typography,
 } from "@mui/material";
-import { LanguageIcon, ContinentIcon } from "../icons/icons.js";
+import { LanguageIcon, ContinentIcon, SearchIconFlag } from "../icons/icons.js";
 import GlobalContext from "../context/GlobalContext";
 
 const formDataReducer = (state, event) => {
@@ -38,9 +38,14 @@ const Head = () => {
   }, [formData]);
   return (
     <Box>
-      <Typography sx={{ color: "#FFFFFF", fontWeight: "600" }} variant="h2">
-        Country search
-      </Typography>
+      <Box sx={{ display: "flex" }}>
+        <SearchIconFlag size={80} />
+        <Typography sx={{ color: "#FFFFFF", fontWeight: "600" }} variant="h2">
+          {" "}
+          &nbsp; Country search
+        </Typography>
+      </Box>
+
       <Box
         onSubmit={(e) => e.preventDefault()}
         component="form"
@@ -65,7 +70,7 @@ const Head = () => {
         </Typography>
         <Paper
           variant="secondary"
-          style={{ margin: "5px 0" }}
+          style={{ margin: "10px 0" }}
           sx={{
             display: "flex",
             flexWrap: "wrap",

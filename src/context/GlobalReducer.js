@@ -4,7 +4,10 @@ export const countryDetailsModal = "countryDetailsModal";
 
 export const initialState = {
   formValue: {},
-  countryDetailsModal: false,
+  countryDetailsModal: {
+    active: false,
+    code: null,
+  },
 };
 
 export default function GlobalReducer(state, actions) {
