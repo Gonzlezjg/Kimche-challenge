@@ -1,7 +1,10 @@
 # Kimche-challenge
 
 
-### En progreso :) 
+# Desafío para Software Engineers
+
+Nombre postulante: JOSE GREGORIO PUERTA GONZALEZ
+Link a la app en producción: (https://country-app-search.netlify.app/)
 
 ### Progreso del dia 12/05/2022
   - Primeros pasos en la creación de la aplicación, elección de tecnologías y maquetado.
