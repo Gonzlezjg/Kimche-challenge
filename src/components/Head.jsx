@@ -25,6 +25,10 @@ const Head = () => {
   });
   const [alignment, setAlignment] = useState("continent");
 
+  useEffect(() => {
+    setGlobalValue("formValue", formData);
+  }, [formData]);
+
   const handleChange = (event, newAlignment) => {
     setAlignment(newAlignment);
     setFormData({
@@ -33,9 +37,6 @@ const Head = () => {
     });
   };
 
-  useEffect(() => {
-    setGlobalValue("formValue", formData);
-  }, [formData]);
   return (
     <Box>
       <Box sx={{ display: "flex" }}>

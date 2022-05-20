@@ -29,6 +29,7 @@ const FIND_COUNTRY = gql`
       phone
       capital
       currency
+      emoji
       languages {
         name
       }
@@ -57,14 +58,18 @@ const MainContent = () => {
         });
         setCountryData(results);
       } else {
-        const results = data?.getCountryLang.filter((c) => {
-          if (formValue.country) {
-            return c.name
-              .toLowerCase()
-              .includes(formValue.country.toLowerCase());
-          }
-        });
-        setCountryData(results);
+        if (formValue.country) {
+          let results = data?.getCountryLang.filter((el) =>
+            el.name.toLowerCase().includes(formValue?.country.toLowerCase())
+          );
+          let elem = results.map((el) => {
+            return {
+              ...el,
+              languages: el.languages.map((e) => e.name),
+            };
+          });
+          setCountryData(elem);
+        }
       }
     }
   }
@@ -101,7 +106,7 @@ const MainContent = () => {
           ? countryData?.map((country, key) => {
               return (
                 <>
-                  {country.countries.length ? (
+                  {country?.countries.length ? (
                     <Grid item xs={16} key={key}>
                       <Divider textAlign="left">
                         <Typography
@@ -116,10 +121,9 @@ const MainContent = () => {
                       </Divider>
                     </Grid>
                   ) : (
-                    <>
-                    </>
+                    <></>
                   )}
-                  {country.countries.map((el, key) => {
+                  {country?.countries.map((el, key) => {
                     return (
                       <Grid item xs={4} md={4} key={key + 1}>
                         <CountryCards country={el} />
@@ -129,7 +133,35 @@ const MainContent = () => {
                 </>
               );
             })
-          : ""}
+          : countryData?.map((country, key) => {
+              return (
+                <>
+                  {country?.languages != undefined ? (
+                    <Grid item xs={16} key={key}>
+                      <Divider textAlign="left">
+                        <Typography
+                          color="primary"
+                          variant="h2"
+                          sx={{
+                            fontWeight: "400",
+                          }}
+                        >
+                          {country?.languages.find(
+                            (element) => element != undefined
+                          )}
+                        </Typography>
+                      </Divider>
+                    </Grid>
+                  ) : (
+                    ""
+                  )}
+
+                  <Grid item xs={4} md={4} key={key + 1}>
+                    <CountryCards country={country} />
+                  </Grid>
+                </>
+              );
+            })}
       </Grid>
     </Box>
   );

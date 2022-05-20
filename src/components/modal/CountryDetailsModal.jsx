@@ -67,7 +67,6 @@ const CountryDetailsModal = () => {
       active: false,
       code: null,
     });
-  console.log(data);
   return (
     <div>
       <Modal open={countryDetailsModal.active} onClose={handleClose}>
